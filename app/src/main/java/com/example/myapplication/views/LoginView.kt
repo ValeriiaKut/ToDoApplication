@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,8 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,8 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myapplication.R
+import com.example.myapplication.models.AuthTextField
 import com.example.myapplication.utils.Routes
-
 
 @Composable
 fun LogoImage() {
@@ -51,59 +50,10 @@ fun LogoImage() {
 
 @Composable
 fun LoginPage(navController: NavController) {
-    var email by remember { mutableStateOf("") }
-
-    OutlinedTextField(
-
-        shape = RoundedCornerShape(15.dp),
-        value = email,
-        onValueChange = { email = it },
-        label = {
-            Text(
-                text = "Email or User Name",
-                style = TextStyle(
-                    fontWeight = FontWeight.W400,
-                    fontSize = 15.sp,
-                ),
-            )
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp)
-            .height(50.dp)
-            .offset(y = 294.dp),
-        leadingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.user), // Use your image resource here (e.g., ImageVector)
-                contentDescription = "Email Icon",
-                modifier = Modifier
-                .size(30.dp)
-            )
-        }
-
-    )
-
-    OutlinedTextField(
-        shape = RoundedCornerShape(15.dp),
-        value = email,
-        onValueChange = { email = it },
-        label = { Text("Password") },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp)
-            .height(50.dp)
-            .offset(y = 384.dp),
-        leadingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.password),
-                contentDescription = "Email Icon",
-                modifier = Modifier
-                    .size(30.dp)
-            )
-        }
+    var email by remember { mutableStateOf("")}
+        var password by remember { mutableStateOf("")}
 
 
-    )
 
     LogoImage()
 
@@ -123,8 +73,33 @@ fun LoginPage(navController: NavController) {
                 .offset(x = 19.dp, y = 212.dp)
         )
 
+        Spacer(modifier = Modifier.height(254.dp))
 
+        AuthTextField(
+            placeholder = "Email or User name",
+            value = email,
+            onValueChange = { email = it },
+            isPassword = false,
+            iconId = R.drawable.user,
+
+
+        )
+
+
+        Spacer(modifier = Modifier.height(40.dp))
+        AuthTextField(
+            placeholder = "Password",
+            value = password,
+            onValueChange = { password = it },
+            isPassword = true,
+            iconId = R.drawable.password,
+
+        )
+        Spacer(modifier = Modifier.height(40.dp))
     }
+
+
+
 
 
     Button(
@@ -190,3 +165,4 @@ fun LoginPage(navController: NavController) {
             }
     )
 }
+

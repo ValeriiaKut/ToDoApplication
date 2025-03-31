@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,8 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myapplication.R
 import com.example.myapplication.utils.Routes
+import com.example.myapplication.models.AuthTextField
 
 @Composable
 fun BackImage() {
@@ -40,7 +40,7 @@ fun BackImage() {
         painter = painterResource(id = R.drawable.back),
         contentDescription = "Witaj w Compose!",
         modifier = Modifier
-            .offset(x = 12.dp, y = 59.dp)
+            .offset(x = 12.dp, y = 58.dp)
             .size(20.dp)
             .width(20.dp)
             .height(20.dp)
@@ -53,7 +53,7 @@ fun ElipceImage() {
         painter = painterResource(id = R.drawable.ellipse),
         contentDescription = "Witaj w Compose!",
         modifier = Modifier
-            .offset(x = 283.dp, y = 5.dp)
+            .offset(x = 284.dp, y = 4.dp)
             .size(129.dp)
             .width(129.dp)
             .height(129.dp)
@@ -65,90 +65,8 @@ fun ElipceImage() {
 @Composable
 fun RegisterPage(navController: NavController){
     var email by remember { mutableStateOf("") }
-    OutlinedTextField(
-        shape = RoundedCornerShape(15.dp),
-        value = email,
-        onValueChange = { email = it },
-        label = { Text("Full Name") },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp)
-            .height(50.dp)
-            .offset(y = 262.dp) ,
-                leadingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.user), // Use your image resource here (e.g., ImageVector)
-                contentDescription = "Email Icon",
-                modifier = Modifier
-                .size(30.dp)
-            )
-        }
+    var password by remember { mutableStateOf("")}
 
-
-
-    )
-    OutlinedTextField(
-        shape = RoundedCornerShape(15.dp),
-        value = email,
-        onValueChange = { email = it },
-        label = { Text("Email") },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp)
-            .height(50.dp)
-            .offset(y = 352.dp),
-        leadingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.email), // Use your image resource here (e.g., ImageVector)
-                contentDescription = "Email Icon",
-                modifier = Modifier
-                    .size(30.dp)
-            )
-        }
-
-
-    )
-    OutlinedTextField(
-        shape = RoundedCornerShape(15.dp),
-        value = email,
-        onValueChange = { email = it },
-        label = { Text("Password") },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp)
-            .height(50.dp)
-            .offset(y = 442.dp),
-        leadingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.password), // Use your image resource here (e.g., ImageVector)
-                contentDescription = "Email Icon",
-                modifier = Modifier
-                    .size(30.dp)
-            )
-        }
-
-    )
-    OutlinedTextField(
-        shape = RoundedCornerShape(15.dp),
-        value = email,
-        onValueChange = { email = it },
-        label = { Text(" Confirm Password") },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp)
-            .height(50.dp)
-            .offset(y = 532.dp),
-        leadingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.password), // Use your image resource here (e.g., ImageVector)
-                contentDescription = "Email Icon",
-                modifier = Modifier
-                    .size(30.dp)
-            )
-        }
-
-
-    )
     BackImage()
     ElipceImage()
     Column(
@@ -166,6 +84,52 @@ fun RegisterPage(navController: NavController){
             modifier = Modifier
                 .offset(x = 20.dp, y = 180.dp)
         )
+
+        Spacer(modifier = Modifier.height(222.dp))
+
+        AuthTextField(
+            placeholder = "Full Name",
+            value = email,
+            onValueChange = { email = it },
+            isPassword = false,
+            iconId = R.drawable.user,
+
+
+            )
+
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        AuthTextField(
+            placeholder = "Email",
+            value = email,
+            onValueChange = { email = it },
+            isPassword = false,
+            iconId = R.drawable.email,
+
+
+            )
+
+
+        Spacer(modifier = Modifier.height(40.dp))
+        AuthTextField(
+            placeholder = "Password",
+            value = password,
+            onValueChange = { password = it },
+            isPassword = true,
+            iconId = R.drawable.password,
+
+            )
+        Spacer(modifier = Modifier.height(40.dp))
+        AuthTextField(
+            placeholder = "Confirm Password",
+            value = password,
+            onValueChange = { password = it },
+            isPassword = true,
+            iconId = R.drawable.password,
+
+            )
+        Spacer(modifier = Modifier.height(40.dp))
     }
     Button(
         onClick = {  },
