@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myapplication.R
-import com.example.myapplication.models.AuthTextField
+import com.example.myapplication.widgets.AuthTextField
 import com.example.myapplication.utils.Routes
 
 @Composable
@@ -161,7 +161,7 @@ fun LoginPage(navController: NavController) {
             .offset(x = 250.dp, y = 852.dp)
             .clickable {
                 // Navigate to register page or any other action
-                navController.navigate(Routes.registerPage)
+                navController.navigate(Routes.toDoListPage)
             }
     )
 }

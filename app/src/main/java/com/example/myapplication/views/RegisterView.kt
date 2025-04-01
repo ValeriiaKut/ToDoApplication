@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myapplication.R
 import com.example.myapplication.utils.Routes
-import com.example.myapplication.models.AuthTextField
+import com.example.myapplication.widgets.AuthTextField
 
 @Composable
 fun BackImage() {
