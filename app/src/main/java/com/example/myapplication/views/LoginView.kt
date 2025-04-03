@@ -103,7 +103,7 @@ fun LoginPage(navController: NavController) {
 
 
     Button(
-        onClick = { navController.navigate(Routes.homePage) },
+        onClick = { navController.navigate(Routes.toDoListPage) },
         shape = RoundedCornerShape(15.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFFBB84E8)
@@ -161,7 +161,7 @@ fun LoginPage(navController: NavController) {
             .offset(x = 250.dp, y = 852.dp)
             .clickable {
                 // Navigate to register page or any other action
-                navController.navigate(Routes.toDoListPage)
+                navController.navigate(Routes.registerPage)
             }
     )
 }
