@@ -1,7 +1,5 @@
 package com.example.myapplication.views
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -38,7 +36,6 @@ import com.example.myapplication.viewmodel.TodoViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TodoListPage(viewModel: TodoViewModel){
 
@@ -101,8 +98,9 @@ fun TodoItem(item : Todo, onDelete : ()-> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.primary)
+            .shadow(elevation = 8.dp, shape = RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(10.dp))
+            .background(Color(0xFFFFC0CB))
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
 
@@ -111,21 +109,21 @@ fun TodoItem(item : Todo, onDelete : ()-> Unit) {
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = SimpleDateFormat("HH:mm:aa, dd/mm", Locale.ENGLISH).format(item.createdAt),
+                text = SimpleDateFormat("HH:mm:aa, dd/MM", Locale.ENGLISH).format(item.createdAt),
                 fontSize = 12.sp,
-                color = Color.LightGray
+                color = Color.Gray
             )
             Text(
                 text = item.title,
                 fontSize = 20.sp,
-                color = Color.White
+                color = Color.Gray
             )
         }
         IconButton(onClick = onDelete) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_delete_24),
                 contentDescription = "Delete",
-                tint = Color.White
+                tint = Color.Gray
             )
         }
     }
