@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Moja Aplikacja</string>
+    <string name="signIn">Zaloguj się</string>
+    <string name="emailOrUserName">Adres e-mail lub nazwa użytkownika</string>
+    <string name="password">Hasło</string>
+    <string name="forgetPassword">Zapomniałeś hasła?</string>
+    <string name="dontHaveAccount">Nie masz konta?</string>
+    <string name="signUp">Zarejestuj się</string>
+    <string name="fullName">Pełne imię i nazwisko</string>
+    <string name="email">Adres e-mail</string>
+    <string name="confirmPassword">Potwierdź hasło</string>
+    <string name="alreadyHaveAccount">Masz już konto?</string>
+    <string name="add">Dodaj</string>
+    <string name="back">Powrót</string>
+</resources>

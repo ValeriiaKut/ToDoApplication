@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Моя Аплікація</string>
+    <string name="signIn">Увійти</string>
+    <string name="emailOrUserName">Електронна адреса або ім\'я користувача</string>
+    <string name="password">Пароль</string>
+    <string name="forgetPassword">Забули Пароль?</string>
+    <string name="dontHaveAccount">Не маєте аккаунту?</string>
+    <string name="signUp">Зареєструватися</string>
+    <string name="fullName">Повне ім\'я та прізвище </string>
+    <string name="email">Електронна адреса</string>
+    <string name="confirmPassword">Підтвердіть Пароль</string>
+    <string name="alreadyHaveAccount">Вже маєте аккаунт?</string>
+    <string name="add">Додати</string>
+    <string name="back">Назад</string>
+</resources>

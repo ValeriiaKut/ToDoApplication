@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -50,8 +51,8 @@ fun LogoImage() {
 
 @Composable
 fun LoginPage(navController: NavController) {
-    var email by remember { mutableStateOf("")}
-        var password by remember { mutableStateOf("")}
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
 
 
@@ -63,7 +64,7 @@ fun LoginPage(navController: NavController) {
         horizontalAlignment = Alignment.Start,
     ) {
         Text(
-            text = "Sign in",
+            text = stringResource(id = R.string.signIn),
             style = TextStyle(
                 fontWeight = FontWeight.W700,
                 color = Color(0xFF471AA0),
@@ -76,25 +77,25 @@ fun LoginPage(navController: NavController) {
         Spacer(modifier = Modifier.height(254.dp))
 
         AuthTextField(
-            placeholder = "Email or User name",
+            placeholder = stringResource(id = R.string.emailOrUserName),
             value = email,
             onValueChange = { email = it },
             isPassword = false,
             iconId = R.drawable.user,
 
 
-        )
+            )
 
 
         Spacer(modifier = Modifier.height(40.dp))
         AuthTextField(
-            placeholder = "Password",
+            placeholder = stringResource(id = R.string.password),
             value = password,
             onValueChange = { password = it },
             isPassword = true,
             iconId = R.drawable.password,
 
-        )
+            )
         Spacer(modifier = Modifier.height(40.dp))
     }
 
@@ -115,7 +116,7 @@ fun LoginPage(navController: NavController) {
             .offset(y = 532.dp)
     ) {
         Text(
-            text = "Sign In",
+            text = stringResource(id = R.string.signIn),
             style = TextStyle(
                 fontWeight = FontWeight.W700,
                 fontSize = 15.sp,
@@ -130,7 +131,7 @@ fun LoginPage(navController: NavController) {
         horizontalAlignment = Alignment.Start,
     ) {
         Text(
-            text = "Forget Password?",
+            text = stringResource(id = R.string.forgetPassword),
             style = TextStyle(
                 fontWeight = FontWeight.W700,
                 color = Color(0xFF471AA0),
@@ -141,7 +142,7 @@ fun LoginPage(navController: NavController) {
         )
     }
     Text(
-        text = "Don't have account ?",
+        text = stringResource(id = R.string.dontHaveAccount),
         style = TextStyle(
             fontWeight = FontWeight.W400,
             color = Color(0xFF471AA0),
@@ -151,7 +152,7 @@ fun LoginPage(navController: NavController) {
             .offset(x = 110.dp, y = 852.dp)
     )
     Text(
-        text = "Sing Up",
+        text = stringResource(id = R.string.signUp),
         style = TextStyle(
             fontWeight = FontWeight.W700,
             color = Color(0xFF471AA0),

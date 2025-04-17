@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -66,6 +67,8 @@ fun ElipceImage() {
 fun RegisterPage(navController: NavController){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("")}
+    var email1 by remember { mutableStateOf("") }
+    var password1 by remember { mutableStateOf("")}
 
     BackImage()
     ElipceImage()
@@ -75,7 +78,7 @@ fun RegisterPage(navController: NavController){
         horizontalAlignment = Alignment.Start,
     ) {
         Text(
-            text = "Sign Up",
+            text = stringResource(id =  R.string.signUp),
             style = TextStyle(
                 fontWeight = FontWeight.W700,
                 color = Color(0xFF471AA0),
@@ -88,7 +91,7 @@ fun RegisterPage(navController: NavController){
         Spacer(modifier = Modifier.height(222.dp))
 
         AuthTextField(
-            placeholder = "Full Name",
+            placeholder = stringResource(id =  R.string.fullName),
             value = email,
             onValueChange = { email = it },
             isPassword = false,
@@ -101,9 +104,9 @@ fun RegisterPage(navController: NavController){
         Spacer(modifier = Modifier.height(40.dp))
 
         AuthTextField(
-            placeholder = "Email",
-            value = email,
-            onValueChange = { email = it },
+            placeholder = stringResource(id =  R.string.email),
+            value = email1,
+            onValueChange = { email1 = it },
             isPassword = false,
             iconId = R.drawable.email,
 
@@ -113,7 +116,7 @@ fun RegisterPage(navController: NavController){
 
         Spacer(modifier = Modifier.height(40.dp))
         AuthTextField(
-            placeholder = "Password",
+            placeholder = stringResource(id =  R.string.password),
             value = password,
             onValueChange = { password = it },
             isPassword = true,
@@ -122,9 +125,9 @@ fun RegisterPage(navController: NavController){
             )
         Spacer(modifier = Modifier.height(40.dp))
         AuthTextField(
-            placeholder = "Confirm Password",
-            value = password,
-            onValueChange = { password = it },
+            placeholder = stringResource(id =  R.string.confirmPassword),
+            value = password1,
+            onValueChange = { password1 = it },
             isPassword = true,
             iconId = R.drawable.password,
 
@@ -144,7 +147,7 @@ fun RegisterPage(navController: NavController){
             .offset(y = 662.dp)
     ) {
         Text(
-            text = "Sign Up",
+            text = stringResource(id =  R.string.signUp),
             style = TextStyle(
                 fontWeight = FontWeight.W700,
                 fontSize = 15.sp,
@@ -152,7 +155,7 @@ fun RegisterPage(navController: NavController){
         )
     }
     Text(
-        text = "Already have an account ?",
+        text = stringResource(id =  R.string.alreadyHaveAccount),
         style = TextStyle(
             fontWeight = FontWeight.W400,
             color = Color(0xFF471AA0),
@@ -162,7 +165,7 @@ fun RegisterPage(navController: NavController){
             .offset(x = 96.dp, y = 852.dp)
     )
     Text(
-        text = "Sing In",
+        text = stringResource(id =  R.string.signIn),
         style = TextStyle(
             fontWeight = FontWeight.W700,
             color = Color(0xFF471AA0),
@@ -176,7 +179,7 @@ fun RegisterPage(navController: NavController){
             }
     )
     Text(
-        text = "Back",
+        text = stringResource(id =  R.string.back),
         style = TextStyle(
             fontWeight = FontWeight.W400,
             color = Color(0xFF471AA0),
