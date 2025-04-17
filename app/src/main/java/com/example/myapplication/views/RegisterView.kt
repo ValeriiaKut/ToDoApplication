@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -62,13 +63,37 @@ fun ElipceImage() {
 }
 
 
-
 @Composable
-fun RegisterPage(navController: NavController){
+fun RegisterPage(navController: NavController) {
     var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("")}
+    var password by remember { mutableStateOf("") }
     var email1 by remember { mutableStateOf("") }
-    var password1 by remember { mutableStateOf("")}
+    var password1 by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val lang = context.resources.configuration.locales[0].language
+
+
+    val signUpOffset = if (lang == "pl" || lang == "uk") {
+        Modifier.offset(x = 27.dp, y = 180.dp)
+    } else {
+        Modifier.offset(x = 20.dp, y = 180.dp)
+    }
+
+    val signInOffset = if (lang == "pl") {
+        Modifier.offset(x = 225.dp, y = 852.dp)
+    } else if (lang == "uk") {
+        Modifier.offset(x = 255.dp, y = 852.dp)
+    } else {
+        Modifier.offset(x = 273.dp, y = 852.dp)
+    }
+
+    val alreadyHaveOffset = if (lang == "pl") {
+        Modifier.offset(x = 108.dp, y = 852.dp)
+    } else if (lang == "uk") {
+        Modifier.offset(x = 107.dp, y = 852.dp)
+    } else {
+        Modifier.offset(x = 96.dp, y = 852.dp)
+    }
 
     BackImage()
     ElipceImage()
@@ -78,20 +103,19 @@ fun RegisterPage(navController: NavController){
         horizontalAlignment = Alignment.Start,
     ) {
         Text(
-            text = stringResource(id =  R.string.signUp),
+            text = stringResource(id = R.string.signUp),
             style = TextStyle(
                 fontWeight = FontWeight.W700,
                 color = Color(0xFF471AA0),
                 fontSize = 30.sp,
             ),
-            modifier = Modifier
-                .offset(x = 20.dp, y = 180.dp)
+            modifier = signUpOffset
         )
 
         Spacer(modifier = Modifier.height(222.dp))
 
         AuthTextField(
-            placeholder = stringResource(id =  R.string.fullName),
+            placeholder = stringResource(id = R.string.fullName),
             value = email,
             onValueChange = { email = it },
             isPassword = false,
@@ -104,7 +128,7 @@ fun RegisterPage(navController: NavController){
         Spacer(modifier = Modifier.height(40.dp))
 
         AuthTextField(
-            placeholder = stringResource(id =  R.string.email),
+            placeholder = stringResource(id = R.string.email),
             value = email1,
             onValueChange = { email1 = it },
             isPassword = false,
@@ -116,7 +140,7 @@ fun RegisterPage(navController: NavController){
 
         Spacer(modifier = Modifier.height(40.dp))
         AuthTextField(
-            placeholder = stringResource(id =  R.string.password),
+            placeholder = stringResource(id = R.string.password),
             value = password,
             onValueChange = { password = it },
             isPassword = true,
@@ -125,7 +149,7 @@ fun RegisterPage(navController: NavController){
             )
         Spacer(modifier = Modifier.height(40.dp))
         AuthTextField(
-            placeholder = stringResource(id =  R.string.confirmPassword),
+            placeholder = stringResource(id = R.string.confirmPassword),
             value = password1,
             onValueChange = { password1 = it },
             isPassword = true,
@@ -135,7 +159,7 @@ fun RegisterPage(navController: NavController){
         Spacer(modifier = Modifier.height(40.dp))
     }
     Button(
-        onClick = {  },
+        onClick = { },
         shape = RoundedCornerShape(15.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFFBB84E8)
@@ -147,7 +171,7 @@ fun RegisterPage(navController: NavController){
             .offset(y = 662.dp)
     ) {
         Text(
-            text = stringResource(id =  R.string.signUp),
+            text = stringResource(id = R.string.signUp),
             style = TextStyle(
                 fontWeight = FontWeight.W700,
                 fontSize = 15.sp,
@@ -155,31 +179,30 @@ fun RegisterPage(navController: NavController){
         )
     }
     Text(
-        text = stringResource(id =  R.string.alreadyHaveAccount),
+        text = stringResource(id = R.string.alreadyHaveAccount),
         style = TextStyle(
             fontWeight = FontWeight.W400,
             color = Color(0xFF471AA0),
             fontSize = 15.sp,
         ),
-        modifier = Modifier
-            .offset(x = 96.dp, y = 852.dp)
+        modifier = alreadyHaveOffset
     )
     Text(
-        text = stringResource(id =  R.string.signIn),
+        text = stringResource(id = R.string.signIn),
         style = TextStyle(
             fontWeight = FontWeight.W700,
             color = Color(0xFF471AA0),
             fontSize = 15.sp,
         ),
-        modifier = Modifier
-            .offset(x = 273.dp, y = 852.dp)
-            .clickable {
-                // Navigate to register page or any other action
-                navController.navigate(Routes.loginPage)
-            }
+        modifier = signInOffset.then(
+            Modifier
+                .clickable {
+                    // Navigate to register page or any other action
+                    navController.navigate(Routes.loginPage)
+                })
     )
     Text(
-        text = stringResource(id =  R.string.back),
+        text = stringResource(id = R.string.back),
         style = TextStyle(
             fontWeight = FontWeight.W400,
             color = Color(0xFF471AA0),

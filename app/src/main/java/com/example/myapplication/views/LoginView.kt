@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -53,6 +54,34 @@ fun LogoImage() {
 fun LoginPage(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val lang = context.resources.configuration.locales[0].language
+
+
+    val forgetPasswordOffset = if (lang == "pl") {
+        Modifier.offset(x = 250.dp, y = 474.dp)
+    } else {
+        Modifier.offset(x = 276.dp, y = 474.dp)
+    }
+
+    val signInOffset = if (lang == "pl" || lang == "uk") {
+        Modifier.offset(x = 27.dp, y = 212.dp)
+    } else {
+        Modifier.offset(x = 19.dp, y = 212.dp)
+    }
+
+    val signUpOffset = if (lang == "pl") {
+        Modifier.offset(x = 230.dp, y = 852.dp)
+    } else if (lang == "uk") {
+        Modifier.offset(x = 220.dp, y = 852.dp)
+    } else {
+        Modifier.offset(x = 250.dp, y = 852.dp)
+    }
+    val dontHaveOffset = if (lang == "uk") {
+        Modifier.offset(x = 75.dp, y = 852.dp)
+    } else {
+        Modifier.offset(x = 110.dp, y = 852.dp)
+    }
 
 
 
@@ -70,8 +99,7 @@ fun LoginPage(navController: NavController) {
                 color = Color(0xFF471AA0),
                 fontSize = 30.sp,
             ),
-            modifier = Modifier
-                .offset(x = 19.dp, y = 212.dp)
+            modifier = signInOffset
         )
 
         Spacer(modifier = Modifier.height(254.dp))
@@ -137,8 +165,7 @@ fun LoginPage(navController: NavController) {
                 color = Color(0xFF471AA0),
                 fontSize = 15.sp,
             ),
-            modifier = Modifier
-                .offset(x = 276.dp, y = 474.dp)
+            modifier = forgetPasswordOffset
         )
     }
     Text(
@@ -148,8 +175,7 @@ fun LoginPage(navController: NavController) {
             color = Color(0xFF471AA0),
             fontSize = 15.sp,
         ),
-        modifier = Modifier
-            .offset(x = 110.dp, y = 852.dp)
+        modifier = dontHaveOffset
     )
     Text(
         text = stringResource(id = R.string.signUp),
@@ -158,12 +184,12 @@ fun LoginPage(navController: NavController) {
             color = Color(0xFF471AA0),
             fontSize = 15.sp,
         ),
-        modifier = Modifier
-            .offset(x = 250.dp, y = 852.dp)
-            .clickable {
-                // Navigate to register page or any other action
-                navController.navigate(Routes.registerPage)
-            }
+        modifier = signUpOffset.then(
+            Modifier
+                .clickable {
+                    // Navigate to register page or any other action
+                    navController.navigate(Routes.registerPage)
+                })
     )
 }
 
