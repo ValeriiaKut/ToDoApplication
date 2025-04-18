@@ -1,5 +1,6 @@
 package com.example.myapplication.views
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +18,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -34,6 +37,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myapplication.R
 import com.example.myapplication.utils.Routes
+import com.example.myapplication.viewmodel.AuthState
+import com.example.myapplication.viewmodel.AuthViewModel
 import com.example.myapplication.widgets.AuthTextField
 
 @Composable
@@ -64,13 +69,27 @@ fun ElipceImage() {
 
 
 @Composable
-fun RegisterPage(navController: NavController) {
-    var email by remember { mutableStateOf("") }
+fun RegisterPage(
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    authViewModel: AuthViewModel
+) {
+    var name by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var email1 by remember { mutableStateOf("") }
-    var password1 by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
     val context = LocalContext.current
     val lang = context.resources.configuration.locales[0].language
+    val authState = authViewModel.authState.observeAsState()
+
+
+    LaunchedEffect(authState.value) {
+        when(authState.value){
+            is AuthState.Authenticated -> navController.navigate(Routes.toDoListPage)
+            is AuthState.Error -> Toast.makeText(context, (authState.value as AuthState.Error).message, Toast.LENGTH_LONG).show()
+            else -> Unit
+        }
+    }
 
 
     val signUpOffset = if (lang == "pl" || lang == "uk") {
@@ -116,8 +135,8 @@ fun RegisterPage(navController: NavController) {
 
         AuthTextField(
             placeholder = stringResource(id = R.string.fullName),
-            value = email,
-            onValueChange = { email = it },
+            value = name,
+            onValueChange = { name = it },
             isPassword = false,
             iconId = R.drawable.user,
 
@@ -129,8 +148,8 @@ fun RegisterPage(navController: NavController) {
 
         AuthTextField(
             placeholder = stringResource(id = R.string.email),
-            value = email1,
-            onValueChange = { email1 = it },
+            value = email,
+            onValueChange = { email = it },
             isPassword = false,
             iconId = R.drawable.email,
 
@@ -150,8 +169,8 @@ fun RegisterPage(navController: NavController) {
         Spacer(modifier = Modifier.height(40.dp))
         AuthTextField(
             placeholder = stringResource(id = R.string.confirmPassword),
-            value = password1,
-            onValueChange = { password1 = it },
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
             isPassword = true,
             iconId = R.drawable.password,
 
@@ -159,7 +178,9 @@ fun RegisterPage(navController: NavController) {
         Spacer(modifier = Modifier.height(40.dp))
     }
     Button(
-        onClick = { },
+        onClick = {
+            authViewModel.signUp(email, password, name, confirmPassword)
+        },
         shape = RoundedCornerShape(15.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFFBB84E8)

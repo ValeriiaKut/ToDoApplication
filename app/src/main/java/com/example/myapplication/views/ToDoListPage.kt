@@ -27,6 +27,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -48,16 +49,32 @@ import com.example.myapplication.model.Todo
 import com.example.myapplication.ui.theme.PurpleGrey40
 import com.example.myapplication.ui.theme.PurpleGrey80
 import com.example.myapplication.utils.Routes
+import com.example.myapplication.viewmodel.AuthState
+import com.example.myapplication.viewmodel.AuthViewModel
 import com.example.myapplication.viewmodel.TodoViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun TodoListPage(viewModel: TodoViewModel, navController: NavController) {
+fun TodoListPage(
+    viewModel: TodoViewModel,
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    authViewModel: AuthViewModel
+) {
     val todoList by viewModel.todoList.observeAsState()
     var showDialog by remember { mutableStateOf(false) }
     var inputTitle by remember { mutableStateOf("") }
     var inputDescription by remember { mutableStateOf("") }
+    val authState = authViewModel.authState.observeAsState()
+
+
+    LaunchedEffect(authState.value) {
+        when(authState.value){
+            is AuthState.Unauthenticated -> navController.navigate(Routes.loginPage)
+            else -> Unit
+        }
+    }
 
 
     Column(
@@ -73,7 +90,7 @@ fun TodoListPage(viewModel: TodoViewModel, navController: NavController) {
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            LogoutIcon(navController = navController)
+            LogoutIcon(authViewModel = authViewModel)
 
             Text(
                 text = stringResource(R.string.myToDoList),
@@ -161,7 +178,7 @@ fun TodoListPage(viewModel: TodoViewModel, navController: NavController) {
 }
 
 @Composable
-fun LogoutIcon(navController: NavController) {
+fun LogoutIcon( authViewModel: AuthViewModel) {
     var showLogoutDialog by remember { mutableStateOf(false) }
 
     IconButton(onClick = { showLogoutDialog = true }) {
@@ -170,6 +187,7 @@ fun LogoutIcon(navController: NavController) {
             contentDescription = "Logout"
         )
     }
+
 
     if (showLogoutDialog) {
         AlertDialog(
@@ -184,9 +202,7 @@ fun LogoutIcon(navController: NavController) {
                 TextButton(
                     onClick = {
                         showLogoutDialog = false
-                        navController.navigate(Routes.loginPage) {
-                            popUpTo(0) // або popUpTo(Routes.mainPage) { inclusive = true } якщо хочеш очистити стек
-                        }
+                        authViewModel.signOut()
                     }
                 ) {
                     Text(stringResource(R.string.logOut))

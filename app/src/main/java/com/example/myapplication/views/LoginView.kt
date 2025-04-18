@@ -1,5 +1,6 @@
 package com.example.myapplication.views
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +18,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,6 +38,8 @@ import androidx.navigation.NavController
 import com.example.myapplication.R
 import com.example.myapplication.widgets.AuthTextField
 import com.example.myapplication.utils.Routes
+import com.example.myapplication.viewmodel.AuthState
+import com.example.myapplication.viewmodel.AuthViewModel
 
 
 @Composable
@@ -52,11 +57,30 @@ fun LogoImage() {
 
 
 @Composable
-fun LoginPage(navController: NavController) {
+fun LoginPage(
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    authViewModel: AuthViewModel
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val context = LocalContext.current
     val lang = context.resources.configuration.locales[0].language
+    val authState = authViewModel.authState.observeAsState()
+
+
+    LaunchedEffect(authState.value) {
+        when (authState.value) {
+            is AuthState.Authenticated -> navController.navigate(Routes.toDoListPage)
+            is AuthState.Error -> Toast.makeText(
+                context,
+                (authState.value as AuthState.Error).message,
+                Toast.LENGTH_LONG
+            ).show()
+
+            else -> Unit
+        }
+    }
 
 
     val forgetPasswordOffset = if (lang == "pl") {
@@ -134,7 +158,9 @@ fun LoginPage(navController: NavController) {
 
 
     Button(
-        onClick = { navController.navigate(Routes.toDoListPage) },
+        onClick = {
+            authViewModel.login(email,password)
+        }, enabled = authState.value != AuthState.Loading,
         shape = RoundedCornerShape(15.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFFBB84E8)
