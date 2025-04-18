@@ -1,8 +1,6 @@
 package com.example.myapplication
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -18,7 +16,7 @@ import com.example.myapplication.views.RegisterPage
 import com.example.myapplication.views.TodoListPage
 
 @Composable
-fun MyAppNavigation(modifier: Modifier = Modifier, authViewModel: AuthViewModel){
+fun MyAppNavigation(authViewModel: AuthViewModel){
     val navController = rememberNavController()
     val todoViewModel: TodoViewModel = viewModel()
 
@@ -28,14 +26,14 @@ fun MyAppNavigation(modifier: Modifier = Modifier, authViewModel: AuthViewModel)
         startDestination = Routes.loginPage,
         builder = {
             composable(Routes.loginPage) {
-                LoginPage(navController,modifier,authViewModel)
+                LoginPage(navController, authViewModel)
             }
             composable(Routes.registerPage) {
-                RegisterPage(navController,modifier,authViewModel)
+                RegisterPage(navController, authViewModel)
             }
 
             composable(Routes.toDoListPage){
-                TodoListPage(todoViewModel, navController,modifier,authViewModel)
+                TodoListPage(todoViewModel, navController, authViewModel)
             }
             composable(
                 route = "editTodo/{todoId}",

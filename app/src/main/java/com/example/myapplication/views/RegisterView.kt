@@ -71,7 +71,6 @@ fun ElipceImage() {
 @Composable
 fun RegisterPage(
     navController: NavController,
-    modifier: Modifier = Modifier,
     authViewModel: AuthViewModel
 ) {
     var name by remember { mutableStateOf("") }

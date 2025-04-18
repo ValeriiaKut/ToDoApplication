@@ -59,7 +59,6 @@ fun LogoImage() {
 @Composable
 fun LoginPage(
     navController: NavController,
-    modifier: Modifier = Modifier,
     authViewModel: AuthViewModel
 ) {
     var email by remember { mutableStateOf("") }

@@ -59,7 +59,6 @@ import java.util.Locale
 fun TodoListPage(
     viewModel: TodoViewModel,
     navController: NavController,
-    modifier: Modifier = Modifier,
     authViewModel: AuthViewModel
 ) {
     val todoList by viewModel.todoList.observeAsState()
