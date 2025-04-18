@@ -3,6 +3,7 @@ package com.example.myapplication.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.R
 import com.google.firebase.auth.FirebaseAuth
 
 class AuthViewModel : ViewModel() {
@@ -22,44 +23,58 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun login( email: String, password: String) {
-        if (email.isEmpty()||password.isEmpty()){
-            _authState.value = AuthState.Error("Email or password can't be empty")
+
+    fun login(email: String, password: String, emptyMsg: String, wrongMsg: String) {
+        if (email.isEmpty() || password.isEmpty()) {
+            _authState.value = AuthState.Error(emptyMsg)
             return
         }
 
         _authState.value = AuthState.Loading
-        auth.signInWithEmailAndPassword(email,password)
+        auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
-                if(task.isSuccessful){
+                if (task.isSuccessful) {
                     _authState.value = AuthState.Authenticated
-                }else{
-                    _authState.value = AuthState.Error(task.exception?.message ?: "Something went wrong")
+                } else {
+                    _authState.value = AuthState.Error((task.exception?.message ?: wrongMsg))
                 }
 
             }
     }
 
 
-    fun signUp( email: String, password: String, name: String, confirmPassword: String) {
-        if (email.isEmpty()||password.isEmpty()|| name.isEmpty()||confirmPassword.isEmpty()){
-            _authState.value = AuthState.Error("Fields can't be empty")
+    fun signUp(
+        email: String,
+        password: String,
+        name: String,
+        confirmPassword: String,
+        fieldsMsg: String,
+        dontMatchMsg: String,
+        wrongMsg: String
+    ) {
+        if (email.isEmpty() || password.isEmpty() || name.isEmpty() || confirmPassword.isEmpty()) {
+            _authState.value = AuthState.Error(fieldsMsg)
+            return
+        }
+        if (password != confirmPassword) {
+            _authState.value = AuthState.Error(dontMatchMsg)
             return
         }
 
         _authState.value = AuthState.Loading
-        auth.createUserWithEmailAndPassword(email,password)
+        auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
-                if(task.isSuccessful){
+                if (task.isSuccessful) {
                     _authState.value = AuthState.Authenticated
-                }else{
-                    _authState.value = AuthState.Error(task.exception?.message ?: "Something went wrong")
+                } else {
+                    _authState.value =
+                        AuthState.Error((task.exception?.message ?: wrongMsg))
                 }
 
             }
     }
 
-    fun signOut(){
+    fun signOut() {
         auth.signOut()
         _authState.value = AuthState.Unauthenticated
     }

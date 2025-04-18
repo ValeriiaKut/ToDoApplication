@@ -26,4 +26,8 @@
     <string name="delete">Видалити</string>
     <string name="sure2">Чи справді хочеш видалити цю Туду?</string>
     <string name="noItems">Ще нема жодного запису</string>
+    <string name="fields">Поля не можуть бути пустими</string>
+    <string name="dontMatch">Паролі не відповідають один одному</string>
+    <string name="wrong">Щось пішло не так</string>
+    <string name="empty">Електронна адреса або пароль не можуть бути пустими</string>
 </resources>

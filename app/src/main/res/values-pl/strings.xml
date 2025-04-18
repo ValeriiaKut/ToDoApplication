@@ -26,4 +26,8 @@
     <string name="delete">Usuń</string>
     <string name="sure2">Czy na pewno checesz usunąć to Todo?</string>
     <string name="noItems">Jeszcze niema żadnego zapisu</string>
+    <string name="fields">Pola nie mogą być puste</string>
+    <string name="dontMatch">Hasła nie są jednakowe</string>
+    <string name="wrong">Coś poszło nie tak</string>
+    <string name="empty">Adres e-mail albo hasło nie mogą być puste</string>
 </resources>

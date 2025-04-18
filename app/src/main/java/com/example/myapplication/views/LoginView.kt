@@ -158,7 +158,12 @@ fun LoginPage(
 
     Button(
         onClick = {
-            authViewModel.login(email,password)
+            authViewModel.login(
+                email,
+                password,
+                emptyMsg = context.getString(R.string.empty),
+                wrongMsg = context.getString(R.string.wrong)
+            )
         }, enabled = authState.value != AuthState.Loading,
         shape = RoundedCornerShape(15.dp),
         colors = ButtonDefaults.buttonColors(

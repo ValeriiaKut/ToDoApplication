@@ -83,9 +83,14 @@ fun RegisterPage(
 
 
     LaunchedEffect(authState.value) {
-        when(authState.value){
+        when (authState.value) {
             is AuthState.Authenticated -> navController.navigate(Routes.toDoListPage)
-            is AuthState.Error -> Toast.makeText(context, (authState.value as AuthState.Error).message, Toast.LENGTH_LONG).show()
+            is AuthState.Error -> Toast.makeText(
+                context,
+                (authState.value as AuthState.Error).message,
+                Toast.LENGTH_LONG
+            ).show()
+
             else -> Unit
         }
     }
@@ -178,7 +183,15 @@ fun RegisterPage(
     }
     Button(
         onClick = {
-            authViewModel.signUp(email, password, name, confirmPassword)
+            authViewModel.signUp(
+                email,
+                password,
+                name,
+                confirmPassword,
+                fieldsMsg = context.getString(R.string.fields),
+                dontMatchMsg = context.getString(R.string.dontMatch),
+                wrongMsg = context.getString(R.string.wrong)
+            )
         },
         shape = RoundedCornerShape(15.dp),
         colors = ButtonDefaults.buttonColors(
