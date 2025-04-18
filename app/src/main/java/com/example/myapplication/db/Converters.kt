@@ -1,7 +1,6 @@
 package com.example.myapplication.db
 
 import androidx.room.TypeConverter
-import java.sql.Time
 import java.util.Date
 
 class Converters {

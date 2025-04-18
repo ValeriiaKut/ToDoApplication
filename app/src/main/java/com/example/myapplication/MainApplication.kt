@@ -17,6 +17,9 @@ class MainApplication : Application() {
             TodoDatabase :: class.java,
             TodoDatabase.NAME
 
-        ).build()
+        )
+            .addMigrations(TodoDatabase.MIGRATION_1_2)
+            .build()
+
     }
 }

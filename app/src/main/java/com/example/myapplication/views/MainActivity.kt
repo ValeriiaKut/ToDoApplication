@@ -5,9 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.myapplication.utils.Routes
 import com.example.myapplication.viewmodel.TodoViewModel
 
@@ -32,7 +34,14 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(Routes.toDoListPage){
-                        TodoListPage(todoViewModel)
+                        TodoListPage(todoViewModel, navController)
+                    }
+                    composable(
+                        route = "editTodo/{todoId}",
+                        arguments = listOf(navArgument("todoId") { type = NavType.IntType })
+                    ) { backStackEntry ->
+                        val todoId = backStackEntry.arguments?.getInt("todoId") ?: return@composable
+                        EditTodoScreen(viewModel = todoViewModel, todoId = todoId, navController = navController)
                     }
 
                 }

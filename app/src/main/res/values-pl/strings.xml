@@ -12,4 +12,18 @@
     <string name="alreadyHaveAccount">Masz już konto ?</string>
     <string name="add">Dodaj</string>
     <string name="back">Powrót</string>
+    <string name="myToDoList">Moja Todo Lista</string>
+    <string name="editToDo">Redaguj Todo</string>
+    <string name="title">Tytuł</string>
+    <string name="description">Opis</string>
+    <string name="save">Zapisz</string>
+    <string name="addNewTask">Dodaj Nowy Todo</string>
+    <string name="todoTitle">Todo Tytuł</string>
+    <string name="todoDescription">Todo Opis</string>
+    <string name="cancel">Anuluj</string>
+    <string name="logOut">Wyloguj się</string>
+    <string name="sure">Czy na pewno chcesz się wylogować?</string>
+    <string name="delete">Usuń</string>
+    <string name="sure2">Czy na pewno checesz usunąć to Todo?</string>
+    <string name="noItems">Jeszcze niema żadnego zapisu</string>
 </resources>

@@ -12,4 +12,18 @@
     <string name="alreadyHaveAccount">Вже маєте аккаунт ?</string>
     <string name="add">Додати</string>
     <string name="back">Назад</string>
+    <string name="myToDoList">Мій Туду Лист</string>
+    <string name="editToDo">Змінити Туду</string>
+    <string name="title">Титул</string>
+    <string name="description">Опис</string>
+    <string name="save">Зберегти</string>
+    <string name="addNewTask">Додати новий Туду</string>
+    <string name="todoTitle">Туду Титул</string>
+    <string name="todoDescription">Tуду Опис</string>
+    <string name="cancel">Відміна</string>
+    <string name="logOut">Вийти</string>
+    <string name="sure">Ти впевнений, що хочеш вийти?</string>
+    <string name="delete">Видалити</string>
+    <string name="sure2">Чи справді хочеш видалити цю Туду?</string>
+    <string name="noItems">Ще нема жодного запису</string>
 </resources>

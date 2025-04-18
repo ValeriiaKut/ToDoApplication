@@ -36,6 +36,7 @@ import com.example.myapplication.R
 import com.example.myapplication.widgets.AuthTextField
 import com.example.myapplication.utils.Routes
 
+
 @Composable
 fun LogoImage() {
     Image(
@@ -82,6 +83,7 @@ fun LoginPage(navController: NavController) {
     } else {
         Modifier.offset(x = 110.dp, y = 852.dp)
     }
+
 
 
 

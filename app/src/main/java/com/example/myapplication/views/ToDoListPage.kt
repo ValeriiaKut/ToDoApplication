@@ -1,20 +1,31 @@
 package com.example.myapplication.views
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -31,101 +42,239 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.myapplication.R
 import com.example.myapplication.model.Todo
+import com.example.myapplication.ui.theme.PurpleGrey40
+import com.example.myapplication.ui.theme.PurpleGrey80
+import com.example.myapplication.utils.Routes
 import com.example.myapplication.viewmodel.TodoViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun TodoListPage(viewModel: TodoViewModel){
-
+fun TodoListPage(viewModel: TodoViewModel, navController: NavController) {
     val todoList by viewModel.todoList.observeAsState()
-    var inputText by remember {
-        mutableStateOf("")
-    }
+    var showDialog by remember { mutableStateOf(false) }
+    var inputTitle by remember { mutableStateOf("") }
+    var inputDescription by remember { mutableStateOf("") }
+
 
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .padding(8.dp)
+            .padding(16.dp)
+            .padding(WindowInsets.safeDrawing.asPaddingValues())
     ) {
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            OutlinedTextField(
-                modifier= Modifier.weight(1f),
-                value = inputText,
-                onValueChange = {
-                    inputText = it
-                })
-            Button(onClick = {
-                viewModel.addTodo(inputText)
-                inputText = ""
-            }) {
-                Text(text = stringResource(id =  R.string.add))
+            LogoutIcon(navController = navController)
+
+            Text(
+                text = stringResource(R.string.myToDoList),
+                fontSize = 24.sp,
+                color = Color.DarkGray,
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center
+
+            )
+
+            Button(
+                onClick = { showDialog = true },
+                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = PurpleGrey40,
+                    contentColor = Color.White
+                )
+
+            ) {
+                Text(text = stringResource(id = R.string.add))
             }
         }
 
+
         todoList?.let {
-            LazyColumn(
-                content = {
-                    itemsIndexed(it){ _: Int, item: Todo ->
-                        TodoItem(item = item, onDelete = {
-                            viewModel.deleteTodo(item.id)
-                        })
-                    }
+            LazyColumn {
+                itemsIndexed(it) { _: Int, item: Todo ->
+                    TodoItem(
+                        item = item,
+                        onDelete = { viewModel.deleteTodo(item.id) },
+                        onClick = { navController.navigate("editTodo/${item.id}") }
+                    )
                 }
-            )
-        }?: Text(
+            }
+        } ?: Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            text = "No items yet",
+            text = stringResource(R.string.noItems),
             fontSize = 16.sp
         )
 
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = { showDialog = false },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            viewModel.addTodo(inputTitle, inputDescription)
+                            inputTitle = ""
+                            inputDescription = ""
+                            showDialog = false
 
+                        }
+                    ) {
+                        Text(stringResource(R.string.add))
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showDialog = false }) {
+                        Text(stringResource(R.string.cancel))
+                    }
+                },
+                title = { Text(stringResource(R.string.addNewTask)) },
+                text = {
+                    Column {
+                        OutlinedTextField(
+                            value = inputTitle,
+                            onValueChange = { inputTitle = it },
+                            label = { Text(stringResource(R.string.todoTitle)) },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = inputDescription,
+                            onValueChange = { inputDescription = it },
+                            label = { Text(stringResource(R.string.todoDescription)) },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+
+            )
+        }
     }
-
 }
 
 @Composable
-fun TodoItem(item : Todo, onDelete : ()-> Unit) {
+fun LogoutIcon(navController: NavController) {
+    var showLogoutDialog by remember { mutableStateOf(false) }
+
+    IconButton(onClick = { showLogoutDialog = true }) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+            contentDescription = "Logout"
+        )
+    }
+
+    if (showLogoutDialog) {
+        AlertDialog(
+            onDismissRequest = { showLogoutDialog = false },
+            title = {
+                Text(stringResource(R.string.logOut))
+            },
+            text = {
+                Text(stringResource(R.string.sure))
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showLogoutDialog = false
+                        navController.navigate(Routes.loginPage) {
+                            popUpTo(0) // або popUpTo(Routes.mainPage) { inclusive = true } якщо хочеш очистити стек
+                        }
+                    }
+                ) {
+                    Text(stringResource(R.string.logOut))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showLogoutDialog = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun DeleteTodoIcon(onDelete: () -> Unit) {
+    var showDeleteDialog by remember { mutableStateOf(false) }
+
+    IconButton(onClick = { showDeleteDialog = true }) {
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_delete_24),
+            contentDescription = "Delete",
+            tint = Color.Gray
+        )
+    }
+
+    if (showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog = false },
+            title = {
+                Text(stringResource(R.string.delete))
+            },
+            text = {
+                Text(stringResource(R.string.sure2))
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDeleteDialog = false
+                        onDelete()
+                    }
+                ) {
+                    Text(stringResource(R.string.delete))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteDialog = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        )
+    }
+}
+
+
+@Composable
+fun TodoItem(item: Todo, onDelete: () -> Unit, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
-            .shadow(elevation = 8.dp, shape = RoundedCornerShape(10.dp))
-            .clip(RoundedCornerShape(10.dp))
-            .background(Color(0xFFFFC0CB))
+            .clickable { onClick() }
+            .padding(vertical = 6.dp)
+            .shadow(elevation = 8.dp, shape = RoundedCornerShape(15.dp))
+            .clip(RoundedCornerShape(12.dp))
+            .background(PurpleGrey80)
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
-
     ) {
         Column(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = SimpleDateFormat("HH:mm:aa, dd/MM", Locale.ENGLISH).format(item.createdAt),
+                text = SimpleDateFormat("HH:mm, dd/MM", Locale.ENGLISH).format(item.createdAt),
                 fontSize = 12.sp,
                 color = Color.Gray
             )
             Text(
                 text = item.title,
                 fontSize = 20.sp,
-                color = Color.Gray
+                color = Color.Black
+            )
+            Text(
+                text = item.description,
+                fontSize = 18.sp,
+                color = Color.Black
             )
         }
-        IconButton(onClick = onDelete) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_delete_24),
-                contentDescription = "Delete",
-                tint = Color.Gray
-            )
-        }
+        DeleteTodoIcon(onDelete = onDelete)
+
     }
 }
