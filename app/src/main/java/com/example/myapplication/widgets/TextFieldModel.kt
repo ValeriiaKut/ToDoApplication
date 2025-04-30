@@ -29,10 +29,13 @@ fun AuthTextField(
     value: String,
     onValueChange: (String) -> Unit,
     isPassword: Boolean = false,
-    iconId: Int,
+    iconId: Int
 
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
+
+
+
     Box(
         modifier = Modifier
             .fillMaxWidth()

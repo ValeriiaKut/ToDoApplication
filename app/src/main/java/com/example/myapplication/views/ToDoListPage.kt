@@ -114,22 +114,29 @@ fun TodoListPage(
         }
 
 
-        todoList?.let {
-            LazyColumn {
-                itemsIndexed(it) { _: Int, item: Todo ->
-                    TodoItem(
-                        item = item,
-                        onDelete = { viewModel.deleteTodo(item.id) },
-                        onClick = { navController.navigate("editTodo/${item.id}") }
-                    )
+        todoList?.let { list ->
+            if (list.isEmpty()) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 32.dp),
+                    textAlign = TextAlign.Center,
+                    text = stringResource(R.string.noItems),
+                    fontSize = 16.sp
+                )
+            } else {
+                LazyColumn {
+                    itemsIndexed(list) { _, item ->
+                        TodoItem(
+                            item = item,
+                            onDelete = { viewModel.deleteTodo(item.id) },
+                            onClick = { navController.navigate("editTodo/${item.id}") }
+                        )
+                    }
                 }
             }
-        } ?: Text(
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            text = stringResource(R.string.noItems),
-            fontSize = 16.sp
-        )
+        }
+
 
         if (showDialog) {
             AlertDialog(

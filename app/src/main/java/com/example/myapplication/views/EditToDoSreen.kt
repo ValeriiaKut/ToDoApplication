@@ -55,59 +55,82 @@ fun EditTodoScreen(viewModel: TodoViewModel, todoId: Int, navController: NavCont
                 title = { Text(stringResource(R.string.editToDo)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
-        }
-    ) { innerPadding ->
-        Box(modifier = Modifier
-            .padding(innerPadding)
-            .fillMaxSize()
-            .background(PurpleGrey80)) {
-
-            Card(
-                modifier = Modifier
-                    .padding(24.dp)
-                    .fillMaxWidth()
-                    .background(PurpleGrey80),
-                shape = RoundedCornerShape(16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-            ) {
-                Column(modifier = Modifier.padding(20.dp)) {
-                    OutlinedTextField(
-                        value = title,
-                        onValueChange = { title = it },
-                        label = { Text(stringResource(R.string.title)) },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                    OutlinedTextField(
-                        value = description,
-                        onValueChange = { description = it },
-                        label = { Text(stringResource(R.string.description)) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(570.dp)
-                    )
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Button(
-                        onClick = {
-                            viewModel.updateTodo(todo.copy(title = title, description = description))
-                            navController.popBackStack()
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = PurpleGrey40,
-                            contentColor = Color.White
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
                         )
+                    }
+                },
+                actions = {
+                    DeleteTodoIcon(
+                        onDelete = {
+                            viewModel.deleteTodo(todoId)
+                            navController.popBackStack()
+                        }
+                    )
+                }
+                    )
+                }
+            ) { innerPadding ->
+                Box(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .fillMaxSize()
+                        .background(PurpleGrey80)
+                ) {
+
+                    Card(
+                        modifier = Modifier
+                            .padding(24.dp)
+                            .fillMaxWidth()
+                            .background(PurpleGrey80),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                     ) {
-                        Text(stringResource(R.string.save), style = MaterialTheme.typography.labelLarge)
+                        Column(modifier = Modifier.padding(20.dp)) {
+                            OutlinedTextField(
+                                value = title,
+                                onValueChange = { title = it },
+                                label = { Text(stringResource(R.string.title)) },
+                                singleLine = true,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            OutlinedTextField(
+                                value = description,
+                                onValueChange = { description = it },
+                                label = { Text(stringResource(R.string.description)) },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(570.dp)
+                            )
+                            Spacer(modifier = Modifier.height(24.dp))
+                            Button(
+                                onClick = {
+                                    viewModel.updateTodo(
+                                        todo.copy(
+                                            title = title,
+                                            description = description
+                                        )
+                                    )
+                                    navController.popBackStack()
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(12.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = PurpleGrey40,
+                                    contentColor = Color.White
+                                )
+                            ) {
+                                Text(
+                                    stringResource(R.string.save),
+                                    style = MaterialTheme.typography.labelLarge
+                                )
+                            }
+                        }
                     }
                 }
             }
         }
-    }
-}
+
+

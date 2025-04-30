@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="signIn">Sign In</string>
+    <string name="signIn">Sign in</string>
     <string name="emailOrUserName">Email or User name</string>
     <string name="password">Password</string>
-    <string name="forgetPassword">Forget Password?</string>
+    <string name="forgetPassword">Forget Password ?</string>
     <string name="dontHaveAccount">Don\'t have account ?</string>
     <string name="signUp">Sign Up</string>
     <string name="fullName">Full Name</string>

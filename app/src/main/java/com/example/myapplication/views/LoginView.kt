@@ -36,10 +36,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myapplication.R
-import com.example.myapplication.widgets.AuthTextField
 import com.example.myapplication.utils.Routes
 import com.example.myapplication.viewmodel.AuthState
 import com.example.myapplication.viewmodel.AuthViewModel
+import com.example.myapplication.widgets.AuthTextField
 
 
 @Composable
@@ -48,7 +48,7 @@ fun LogoImage() {
         painter = painterResource(id = R.drawable.logo),
         contentDescription = "Witaj w Compose!",
         modifier = Modifier
-            .offset(x = 149.dp, y = 62.dp)
+            .offset(x = 140.dp, y = 62.dp)
             .size(129.dp)
             .width(129.dp)
             .height(129.dp)
@@ -61,6 +61,7 @@ fun LoginPage(
     navController: NavController,
     authViewModel: AuthViewModel
 ) {
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val context = LocalContext.current
@@ -81,11 +82,10 @@ fun LoginPage(
         }
     }
 
-
     val forgetPasswordOffset = if (lang == "pl") {
         Modifier.offset(x = 250.dp, y = 474.dp)
     } else {
-        Modifier.offset(x = 276.dp, y = 474.dp)
+        Modifier.offset(x = 269.dp, y = 474.dp)
     }
 
     val signInOffset = if (lang == "pl" || lang == "uk") {
@@ -109,13 +109,14 @@ fun LoginPage(
 
 
 
-
     LogoImage()
+
 
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
+
     ) {
         Text(
             text = stringResource(id = R.string.signIn),
@@ -148,7 +149,9 @@ fun LoginPage(
             isPassword = true,
             iconId = R.drawable.password,
 
-            )
+
+
+        )
         Spacer(modifier = Modifier.height(40.dp))
     }
 
@@ -180,6 +183,7 @@ fun LoginPage(
             style = TextStyle(
                 fontWeight = FontWeight.W700,
                 fontSize = 15.sp,
+                color = Color.White
             )
         )
     }
@@ -224,4 +228,5 @@ fun LoginPage(
                 })
     )
 }
+
 

@@ -60,7 +60,7 @@ fun ElipceImage() {
         painter = painterResource(id = R.drawable.ellipse),
         contentDescription = "Witaj w Compose!",
         modifier = Modifier
-            .offset(x = 284.dp, y = 4.dp)
+            .offset(x = 284.dp, y = 5.dp)
             .size(129.dp)
             .width(129.dp)
             .height(129.dp)
@@ -208,6 +208,7 @@ fun RegisterPage(
             style = TextStyle(
                 fontWeight = FontWeight.W700,
                 fontSize = 15.sp,
+                color = Color.White
             )
         )
     }
