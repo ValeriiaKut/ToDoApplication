@@ -30,4 +30,6 @@
     <string name="dontMatch">Паролі не відповідають один одному</string>
     <string name="wrong">Щось пішло не так</string>
     <string name="empty">Електронна адреса або пароль не можуть бути пустими</string>
+    <string name="addToCalendar">Додати до календаря</string>
+
 </resources>

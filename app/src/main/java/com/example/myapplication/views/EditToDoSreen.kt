@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -31,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -38,6 +41,7 @@ import com.example.myapplication.R
 import com.example.myapplication.ui.theme.PurpleGrey40
 import com.example.myapplication.ui.theme.PurpleGrey80
 import com.example.myapplication.viewmodel.TodoViewModel
+import com.example.myapplication.calendar.addToCalendar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +49,7 @@ import com.example.myapplication.viewmodel.TodoViewModel
 fun EditTodoScreen(viewModel: TodoViewModel, todoId: Int, navController: NavController) {
     val todoList by viewModel.todoList.observeAsState()
     val todo = todoList?.find { it.id == todoId } ?: return
-
+    val context = LocalContext.current
     var title by remember { mutableStateOf(todo.title) }
     var description by remember { mutableStateOf(todo.description) }
 
@@ -68,69 +72,93 @@ fun EditTodoScreen(viewModel: TodoViewModel, todoId: Int, navController: NavCont
                             navController.popBackStack()
                         }
                     )
-                }
-                    )
-                }
-            ) { innerPadding ->
-                Box(
-                    modifier = Modifier
-                        .padding(innerPadding)
-                        .fillMaxSize()
-                        .background(PurpleGrey80)
-                ) {
 
-                    Card(
+
+                }
+            )
+        }
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .background(PurpleGrey80)
+        ) {
+
+            Card(
+                modifier = Modifier
+                    .padding(24.dp)
+                    .fillMaxWidth()
+                    .background(PurpleGrey80),
+                shape = RoundedCornerShape(16.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(20.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    OutlinedTextField(
+                        value = title,
+                        onValueChange = { title = it },
+                        label = { Text(stringResource(R.string.title)) },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    OutlinedTextField(
+                        value = description,
+                        onValueChange = { description = it },
+                        label = { Text(stringResource(R.string.description)) },
                         modifier = Modifier
-                            .padding(24.dp)
                             .fillMaxWidth()
-                            .background(PurpleGrey80),
-                        shape = RoundedCornerShape(16.dp),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                            .height(500.dp)
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Button(
+                        onClick = {
+                            viewModel.updateTodo(
+                                todo.copy(
+                                    title = title,
+                                    description = description
+                                )
+                            )
+                            navController.popBackStack()
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = PurpleGrey40,
+                            contentColor = Color.White
+                        )
                     ) {
-                        Column(modifier = Modifier.padding(20.dp)) {
-                            OutlinedTextField(
-                                value = title,
-                                onValueChange = { title = it },
-                                label = { Text(stringResource(R.string.title)) },
-                                singleLine = true,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                            Spacer(modifier = Modifier.height(12.dp))
-                            OutlinedTextField(
-                                value = description,
-                                onValueChange = { description = it },
-                                label = { Text(stringResource(R.string.description)) },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(570.dp)
-                            )
-                            Spacer(modifier = Modifier.height(24.dp))
-                            Button(
-                                onClick = {
-                                    viewModel.updateTodo(
-                                        todo.copy(
-                                            title = title,
-                                            description = description
-                                        )
-                                    )
-                                    navController.popBackStack()
-                                },
-                                modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(12.dp),
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = PurpleGrey40,
-                                    contentColor = Color.White
-                                )
-                            ) {
-                                Text(
-                                    stringResource(R.string.save),
-                                    style = MaterialTheme.typography.labelLarge
-                                )
-                            }
-                        }
+                        Text(
+                            stringResource(R.string.save),
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Button(
+                        onClick = {
+                            addToCalendar(context, title, description)
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = PurpleGrey40,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(
+                            stringResource(R.string.addToCalendar),
+                            style = MaterialTheme.typography.labelLarge
+                        )
                     }
                 }
             }
         }
+    }
+}
 
 

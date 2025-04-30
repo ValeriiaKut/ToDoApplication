@@ -30,5 +30,6 @@
     <string name="dontMatch">Passwords do not match</string>
     <string name="wrong">Something went wrong</string>
     <string name="empty">Email or password can\'t be empty</string>
+    <string name="addToCalendar">Add to calendar</string>
 
 </resources>
